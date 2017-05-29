@@ -13,88 +13,86 @@
 // You should have received a copy of the GNU General Public License
 // along with SNMP#NET.  If not, see <http://www.gnu.org/licenses/>.
 // 
+
 using System;
+
 namespace SnmpSharpNet
 {
-	
-	
-	/// <summary>SNMPv2 NoSuchObject error</summary>
-	/// <remarks>
-	/// NoSuchObject is returned by the agent in response to a SNMP version 2 request 
-	/// when requested object does not exist in its MIB.
-	/// This value is returned as a <seealso cref="Vb.Value"/> with data of length 0
-	/// 
-	/// For example:
-	/// <code lang="cs">
-	/// // [... prepare for a get operation ...]
-	/// Pdu response = target.Request(outpdu, params);
-	/// foreach(Vb vb in response.VbList) {
-	///		if( vb.Value is NoSuchObject ) {
-	///			return "Requested MIB variable does not exist on the agent.";
-	///		}
-	///	}
-	/// </code>
-	/// </remarks>
-	[Serializable]
-	public class NoSuchObject:V2Error, ICloneable
-	{		
-		
-		/// <summary>Constructor.</summary>
-		public NoSuchObject():base()
-		{
-			_asnType = SnmpConstants.SMI_NOSUCHOBJECT;
-		}
-		/// <summary>
-		/// Constructor
-		/// </summary>
-		/// <param name="second">
-		/// Source for data to initialize this instance with.
-		/// 
-		/// Irrelevant for this type since no data is stored in the class.
-		/// </param>
-		public NoSuchObject(NoSuchObject second):base(second)
-		{
-		}
+    /// <summary>SNMPv2 NoSuchObject error</summary>
+    /// <remarks>
+    ///     NoSuchObject is returned by the agent in response to a SNMP version 2 request
+    ///     when requested object does not exist in its MIB.
+    ///     This value is returned as a <seealso cref="Vb.Value" /> with data of length 0
+    ///     For example:
+    ///     <code lang="cs">
+    ///  // [... prepare for a get operation ...]
+    ///  Pdu response = target.Request(outpdu, params);
+    ///  foreach(Vb vb in response.VbList) {
+    /// 		if( vb.Value is NoSuchObject ) {
+    /// 			return "Requested MIB variable does not exist on the agent.";
+    /// 		}
+    /// 	}
+    ///  </code>
+    /// </remarks>
+    [Serializable]
+    public class NoSuchObject : V2Error, ICloneable
+    {
+        /// <summary>Constructor.</summary>
+        public NoSuchObject()
+        {
+            _asnType = SnmpConstants.SMI_NOSUCHOBJECT;
+        }
 
-		/// <summary> Returns a duplicate object of self.</summary>
-		/// <returns> A duplicate of self</returns>
-		public override Object Clone()
-		{
-			// just create a new object. it doesn't hold any data anyway
-			return new NoSuchObject();
-		}
+        /// <summary>
+        ///     Constructor
+        /// </summary>
+        /// <param name="second">
+        ///     Source for data to initialize this instance with.
+        ///     Irrelevant for this type since no data is stored in the class.
+        /// </param>
+        public NoSuchObject(NoSuchObject second) : base(second)
+        {
+        }
 
-		/// <summary>Decode ASN.1 encoded no-such-object SNMP version 2 MIB value</summary>
-		/// <param name="buffer">The encoded buffer</param>
-		/// <param name="offset">The offset of the first byte of encoded data</param>
-		/// <returns>Buffer position after the decoded value</returns>
-		public override int decode(byte[] buffer, int offset)
-		{
-			int headerLength;
-			byte asnType = ParseHeader(buffer, ref offset, out headerLength);
-			if (asnType != Type)
-				throw new SnmpException("Invalid ASN.1 type");
+        /// <summary> Returns a duplicate object of self.</summary>
+        /// <returns> A duplicate of self</returns>
+        public override object Clone()
+        {
+            // just create a new object. it doesn't hold any data anyway
+            return new NoSuchObject();
+        }
 
-			if (headerLength != 0)
-				throw new SnmpException("Invalid ASN.1 length");
+        /// <summary>Decode ASN.1 encoded no-such-object SNMP version 2 MIB value</summary>
+        /// <param name="buffer">The encoded buffer</param>
+        /// <param name="offset">The offset of the first byte of encoded data</param>
+        /// <returns>Buffer position after the decoded value</returns>
+        public override int decode(byte[] buffer, int offset)
+        {
+            int headerLength;
+            var asnType = ParseHeader(buffer, ref offset, out headerLength);
+            if (asnType != Type)
+                throw new SnmpException("Invalid ASN.1 type");
 
-			return offset;
-		}
+            if (headerLength != 0)
+                throw new SnmpException("Invalid ASN.1 length");
 
-		/// <summary>
-		/// ASN.1 encode no-such-object SNMP version 2 MIB value
-		/// </summary>
-		/// <param name="buffer">MutableByte reference to append encoded variable to</param>
-		public override void encode(MutableByte buffer)
-		{
-			BuildHeader(buffer, Type, 0);
-		}
-		
-		/// <summary> Returns the string representation of the object.</summary>
-		/// <returns>String representation of the class</returns>
-		public override System.String ToString()
-		{
-			return "SNMP No-Such-Object";
-		}
-	}
+            return offset;
+        }
+
+        /// <summary>
+        ///     ASN.1 encode no-such-object SNMP version 2 MIB value
+        /// </summary>
+        /// <param name="buffer">MutableByte reference to append encoded variable to</param>
+        public override void encode(MutableByte buffer)
+        {
+            BuildHeader(buffer, Type, 0);
+        }
+
+        /// <summary> Returns the string representation of the object.</summary>
+        /// <returns>String representation of the class</returns>
+        public override string ToString()
+        {
+            return "SNMP No-Such-Object";
+        }
+    }
 }

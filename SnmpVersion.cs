@@ -17,20 +17,22 @@
 namespace SnmpSharpNet
 {
     /// <summary>
-    /// SNMP Version number enumeration
+    ///     SNMP Version number enumeration
     /// </summary>
     public enum SnmpVersion
     {
         /// <summary>
-        /// SNMP version 1
+        ///     SNMP version 1
         /// </summary>
         Ver1 = 0,
+
         /// <summary>
-        /// SNMP version 2c
+        ///     SNMP version 2c
         /// </summary>
         Ver2 = 1,
+
         /// <summary>
-        /// SNMP version 3
+        ///     SNMP version 3
         /// </summary>
         Ver3 = 3
     }
